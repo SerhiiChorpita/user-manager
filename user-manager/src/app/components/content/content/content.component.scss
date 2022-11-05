@@ -1,0 +1,94 @@
+@import "../../../shared/styles/variables";
+
+.main-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 2800px;
+  width: 100vw;
+  min-height: fit-content;
+  height: 100%;
+  padding: 100px 15px 30px 15px;
+}
+
+.left-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: start;
+  align-items: center;
+  min-width: 200px;
+  min-width: 210px;
+  width: 16%;
+  min-height: fit-content;
+  height: auto;
+  border-radius: 50px;
+  box-shadow: -1px 2px 12px 0px lightgrey;
+  &:hover {
+    .my-btn {
+      margin-bottom: 10px;
+    }
+    .last-btn {
+      margin: 0;
+    }
+  }
+}
+.my-btn {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 50px;
+  min-width: 210px;
+  width: 100%;
+  padding: 5px 25%;
+  border: none;
+  background: linear-gradient(
+    to right,
+    $secondaryColor 60%,
+    $mainColor 30%,
+    $secondaryColor 10%
+  );
+  box-shadow: 0 0 1px 1px $lightgray;
+  transition: all 0.35s;
+  font-size: 1.5rem;
+  &:hover {
+    background: linear-gradient(
+      to left,
+      $secondaryColor,
+      $secondaryColor,
+      $mainColor
+    );
+    text-shadow: 1px 1px white;
+  }
+}
+.btn-active {
+  min-width: 217px;
+
+  background: linear-gradient(
+    to right,
+    $secondaryColor,
+    $secondaryColor,
+    $mainColor
+  );
+  justify-content: end;
+  text-shadow: 1px 1px 2px white;
+}
+.first-btn {
+  border-radius: 50px 50px 0 0;
+}
+.second-btn {
+  border-radius: 0 15px 0 15px;
+}
+.third-btn {
+  border-radius: 15px 0 15px 0;
+}
+.last-btn {
+  border-radius: 0 0 50px 50px;
+}
+.right-container {
+  display: flex;
+  min-width: 200px;
+  width: 79%;
+  min-height: 90vh;
+  height: 100%;
+}
