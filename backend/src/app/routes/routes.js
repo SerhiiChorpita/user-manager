@@ -1,11 +1,8 @@
 const pool = require('../../config/app');
 
 const router = app => {
-    app.get('/', (req, res) => {
-        res.send({
-            message: 'Hello, your starting local page works!'
-        })
-    });
+
+    // users
 
     app.get('/users', (request, response) => {
         pool.query('SELECT * FROM users', (error, result) => {
@@ -27,10 +24,14 @@ const router = app => {
 
     app.post('/users', (req, res) => {
         firstname = req.body.name,
-            email = req.body.email
-        let sql = 'INSERT INTO users (name, email) VALUES (?, ?)';
+            email = req.body.email,
+            password = req.body.password,
+            created_at = req.body.created_at,
+            updated_at = req.body.updated_at
 
-        pool.query(sql, [firstname, email], (error) => {
+        let sql = 'INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?)';
+
+        pool.query(sql, [firstname, email, password, created_at, updated_at], (error) => {
             if (!error)
                 res.send("User successfully added");
             else
@@ -54,8 +55,19 @@ const router = app => {
         pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
             if (error) throw error;
 
-            response.send('User deleted.');
+            response.send('User successfuly deleted.');
         });
+    });
+
+
+
+    // auth
+
+    app.post('/sign-in', (req, res) => {
+
+    });
+    app.post('/token', (req, res) => {
+
     });
 }
 

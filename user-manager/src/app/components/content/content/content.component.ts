@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ShareDataService } from 'src/app/shared/services/share-data/share-data.service';
 
 @Component({
   selector: 'app-content',
@@ -11,19 +12,24 @@ export class ContentComponent implements OnInit {
   public btn2: boolean = true;
   public btn3: boolean = false;
 
-  public isLogined: boolean = false;
+  public isLogined!: boolean;
 
-  constructor() { }
-
+  constructor(
+    private shareData: ShareDataService,
+  ) {
+    shareData.loginChanged.subscribe(clientDate => this.clientLoginStatus(clientDate));
+  }
   ngOnInit(): void {
   }
 
-  login(email: string, password: string): void {
-    if (email === 'test@test.com' && password === 'test_test') {
-      this.isLogined = true;
-    } else {
-      alert('email, або пароль введений невірно!')
-    }
+  clientLoginStatus(clientLogin: boolean): void {
+    this.isLogined = clientLogin;
+  }
+
+  checkLoginStatus(isLogined: boolean): void {
+    this.shareData.Login = isLogined;
+    console.log('isLogined', isLogined);
+
   }
 
   resetBtnValue(): void {

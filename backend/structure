@@ -1,0 +1,153 @@
+BE для системи менеджменту користувачів.
+REST API
+
+Роут - /users
+
+GET /api/v1/users - Get all users with pagination (Authorization - required)
+content type - application/json
+
+    Parameters:
+
+    Auth Access Token - string (header)
+    Page - number (query)
+    PageSize - number (query)
+
+    Response:
+
+    200 - Result № 5 from Models
+    Default - Error № 1 from Models
+
+GET /api/v1/users/{user_id} - Update user by ID. User Details. (Authorization - required, userID - required)
+content type - application/json
+
+    Parameters:
+
+    Auth Access Token - string (header)
+    User ID - number (path)
+
+
+    Response:
+
+    200 - Result № 4 from Models
+    Default - Error № 1 from Models
+
+POST /api/v1/users - Create new User (Authorization - required, User - required)
+content type - application/json
+
+    Parameters:
+
+    Auth Access Token - string (header)
+    User - {  (body)
+        name: string;
+        email: string;
+    password: string;
+    }
+
+    Response:
+
+    200 - Ok
+    Default - Error № 1 from Models
+
+PUT /api/v1/users/{user_id} - Create new User (Authorization - required, UserForUdate - required, UserID - required)
+content type - application/json
+
+    Parameters:
+
+    Auth Access Token - string (header)
+    User ID - number (path)
+    UserForUpdate - any fields from 4 Model (body)
+
+    Response:
+
+    200 - Ok
+    Default - Error № 1 from Models
+
+DELETE /api/v1/users/{user_id} - Remove User by ID (Authorization - required,
+UserID - required)
+content type - application/json
+
+    Parameters:
+
+    Auth Access Token - string (header)
+    User ID - number (path)
+
+    Response:
+
+    200 - Result № 2 from Models
+    Default - Error № 1 from Models
+
+Роут - /auth
+
+POST /auth/v1/sign-in - Will return auth token witch uses for system access
+(AuthData - required)
+content type - application/json
+
+    Parameters:
+
+    AuthData - (body)
+    {
+    email: string;
+    password: string;
+    }
+
+    Response:
+
+    200 - Result № 3 from Models
+    Default - Error № 1 from Models
+
+POST /auth/v1/token - Will return renewed auth token witch uses for system access
+(Authorization - required)
+content type - application/json
+
+    Parameters:
+
+    AuthAccessToken - string (header)
+
+    Response:
+
+    200 - Result № 3 from Models
+    Default - Error № 1 from Models
+
+Models:
+
+1. error {
+   code: string;
+   description: string;
+   }
+
+2. delete_success {
+   code: string;
+   description: string;
+   }
+
+3. auth_result {
+   access_token: string;
+   expires_at: string;
+   }
+
+4. created_user {
+   name: string;
+   email: string;
+   password: string; - should be encrypted
+   created_at: string;
+   updated_at: string;
+   id: number;
+   }
+
+5. user_list {
+   data: [
+   {
+   name: string;
+   email: string;
+   password: string; - should be encrypted
+   created_at: string;
+   updated_at: string;
+   id: number;
+   }
+   ],
+   pagination: {
+   page: number;
+   pageSize: number;
+   rowCount: number;
+   pageCount: number;
+   }}
