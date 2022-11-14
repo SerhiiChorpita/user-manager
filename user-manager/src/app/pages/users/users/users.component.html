@@ -1,1 +1,39 @@
-<p>users works!</p>
+<div class="container">
+    <form #newUser="ngForm" (submit)="addUserToList(newUser)" ngNativeValidate>
+        <div class="col d-flex align-items-center mb-4">
+            <label class="me-2">
+                <input type="text" class="form-control" name="name" pattern="[a-zA-Z]{2,16}" placeholder="name" ngModel
+                    required>
+            </label>
+            <label class="me-2">
+                <input type="text" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    placeholder="email" ngModel required>
+            </label>
+            <label class="me-2">
+                <input type="password" class="form-control" name="password" placeholder="password" autocomplete="off"
+                    ngModel required>
+            </label>
+            <button type="submit" class="btn btn-warning" [disabled]="!newUser.valid">Add</button>
+        </div>
+    </form>
+</div>
+
+
+<table class="table ms-2">
+    <thead>
+        <tr>
+            <th scope="col"><span>#</span></th>
+            <th scope="col" data-order="desc"><span>Name</span></th>
+            <th scope="col"><span>Email</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let user of allUsers; index as i">
+            <tr>
+                <td scope="row"><span>{{i +1}}</span></td>
+                <td><span>{{user.name}}</span></td>
+                <td><span>{{user.email}}</span></td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

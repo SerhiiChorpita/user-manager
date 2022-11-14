@@ -1,21 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from './pages/login/login/login.component';
-import { DashboardComponent } from './pages/dashboard/dashboard/dashboard.component';
-import { UsersComponent } from './pages/users/users/users.component';
-import { MyPageComponent } from './pages/my-page/my-page/my-page.component';
-import { UserDetailsComponent } from './pages/user-details/user-details/user-details.component';
-import { NotFoundComponent } from './pages/not-found/not-found/not-found.component';
-
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'users/:id', component: UserDetailsComponent },
-  { path: 'my-page', component: MyPageComponent },
+  { path: 'dashboard', loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule) },
+  { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
+  { path: 'users', loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule) },
+  { path: 'users/:id', loadChildren: () => import('./pages/user-details/user-details.module').then(m => m.UserDetailsModule) },
+  { path: 'my-page', loadChildren: () => import('./pages/my-page/my-page.module').then(m => m.MyPageModule) },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent }
+  { path: '**', loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule) }
 ];
 
 @NgModule({

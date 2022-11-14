@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotitionService } from 'src/app/shared/services/notition/notition.service';
 import { ShareDataService } from 'src/app/shared/services/share-data/share-data.service';
 
 @Component({
@@ -13,7 +14,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private shareData: ShareDataService) {
+    private shareData: ShareDataService,
+    private notify: NotitionService
+  ) {
     shareData.loginChanged.subscribe(clientDate => this.clientLoginStatus(clientDate));
   }
   ngOnInit(): void {
@@ -28,16 +31,15 @@ export class LoginComponent implements OnInit {
       this.isLogined = true;
       this.router.navigate(['dashboard']);
       this.checkLoginStatus(this.isLogined);
+      this.notify.login('user');
     } else {
-      alert('email, або пароль введений невірно!')
+      this.notify.error('email, або пароль введений невірно!')
     }
   }
 
 
   checkLoginStatus(isLogined: boolean): void {
     this.shareData.Login = isLogined;
-    console.log('isLogined', isLogined);
-
   }
 
 }

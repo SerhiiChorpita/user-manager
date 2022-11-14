@@ -23,21 +23,22 @@ const router = app => {
     });
 
     app.post('/users', (req, res) => {
-        firstname = req.body.name,
+        firstName = req.body.name,
             email = req.body.email,
             password = req.body.password,
-            created_at = req.body.created_at,
-            updated_at = req.body.updated_at
+            createdAt = req.body.createdAt,
+            updatedAt = req.body.updatedAt;
 
-        let sql = 'INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?)';
+        let sql = `INSERT INTO users (name, email, password, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)`;
 
-        pool.query(sql, [firstname, email, password, created_at, updated_at], (error) => {
+        pool.query(sql, [firstName, email, password, createdAt, updatedAt], (error) => {
             if (!error)
                 res.send("User successfully added");
             else
                 console.log(error);
         });
     });
+
 
     app.put('/users/:id', (request, response) => {
         const id = request.params.id;

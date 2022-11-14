@@ -9,7 +9,8 @@ export class ShareDataService {
 
   public isLogined!: boolean;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   get Login(): boolean {
     return this.isLogined;

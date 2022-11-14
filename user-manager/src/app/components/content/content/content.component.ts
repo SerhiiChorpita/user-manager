@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotitionService } from 'src/app/shared/services/notition/notition.service';
 import { ShareDataService } from 'src/app/shared/services/share-data/share-data.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class ContentComponent implements OnInit {
 
   constructor(
     private shareData: ShareDataService,
+    private notify: NotitionService
   ) {
     shareData.loginChanged.subscribe(clientDate => this.clientLoginStatus(clientDate));
   }
@@ -28,8 +30,7 @@ export class ContentComponent implements OnInit {
 
   checkLoginStatus(isLogined: boolean): void {
     this.shareData.Login = isLogined;
-    console.log('isLogined', isLogined);
-
+    this.notify.logout();
   }
 
   resetBtnValue(): void {
