@@ -1,0 +1,35 @@
+<div class="main-block">
+    <h1>Register</h1>
+    <form (ngSubmit)="onRegisterSubmit()" #registerform="ngForm">
+        <div class="main-block__container">
+            <p>{{message}}</p>
+            <div class="mb-3 col-8">
+                <label for="exampleFormControlInput1" class="form-label">Enter Email address</label>
+                <input type="email" class="form-control" name="username" id="exampleFormControlInput1" ngModel required>
+            </div>
+
+            <div class="mb-3 col-8">
+                <label for="inputPassword" class="form-label">Enter Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="password" autocomplete="off"
+                    ngModel required>
+            </div>
+            <div class="d-flex justify-content-between col-8">
+                <button class="btn btn-warning" type="submit">Register</button>
+                <a routerLink="/login">Sign in</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- <div class="main-block">
+    <h2>Register</h2>
+    <form (ngSubmit)="onRegisterSubmit()" #registerform="ngForm">
+        <div>
+            <p>Enter a username</p>
+            <input type="text" name="username" ngModel>
+            <p>Enter a password</p>
+            <input type="password" name="password" ngModel>
+        </div>
+        <button style="margin-top: 20px;" type="submit">Register</button>
+    </form>
+</div> -->

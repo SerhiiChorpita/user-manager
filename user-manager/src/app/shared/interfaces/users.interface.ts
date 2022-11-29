@@ -2,11 +2,14 @@ export interface IUsersEdit {
     name: string,
     email: string,
     password: string,
-    updatedAt: number;
+    updatedAt: string;
 }
 export interface IUsersRequest extends IUsersEdit {
-    createdAt: number,
+    createdAt: string,
 }
 export interface IUsersResponce extends IUsersRequest {
     id: number,
+}
+export interface IUserName {
+    name: string
 }

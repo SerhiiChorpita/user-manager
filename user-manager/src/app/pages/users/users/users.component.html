@@ -1,39 +1,74 @@
 <div class="container">
-    <form #newUser="ngForm" (submit)="addUserToList(newUser)" ngNativeValidate>
+    <form #newUser="ngForm" (submit)="editStatus?updateUser(newUser):addUserToList(newUser)" ngNativeValidate>
         <div class="col d-flex align-items-center mb-4">
             <label class="me-2">
-                <input type="text" class="form-control" name="name" pattern="[a-zA-Z]{2,16}" placeholder="name" ngModel
-                    required>
+                <input type="text" class="form-control" name="name" pattern="[a-zA-Z]{2,16}" placeholder="name"
+                    [(ngModel)]="formName" required>
             </label>
             <label class="me-2">
                 <input type="text" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                    placeholder="email" ngModel required>
+                    placeholder="email" [(ngModel)]="formEmail" required>
             </label>
             <label class="me-2">
                 <input type="password" class="form-control" name="password" placeholder="password" autocomplete="off"
-                    ngModel required>
+                    [(ngModel)]="formPass" required>
             </label>
-            <button type="submit" class="btn btn-warning" [disabled]="!newUser.valid">Add</button>
+            <ng-container *ngIf="editStatus">
+                <button type="submit" class="btn btn-success">Save</button>
+            </ng-container>
+            <ng-container *ngIf="!editStatus">
+                <button type="submit" class="btn btn-warning" [disabled]="!newUser.valid">Add</button>
+            </ng-container>
+
         </div>
     </form>
 </div>
 
-
-<table class="table ms-2">
-    <thead>
-        <tr>
-            <th scope="col"><span>#</span></th>
-            <th scope="col" data-order="desc"><span>Name</span></th>
-            <th scope="col"><span>Email</span></th>
-        </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngFor="let user of allUsers; index as i">
+<ng-container *ngIf="isLogined === 'ADMIN'">
+    <table class="table ms-2">
+        <thead>
             <tr>
-                <td scope="row"><span>{{i +1}}</span></td>
-                <td><span>{{user.name}}</span></td>
-                <td><span>{{user.email}}</span></td>
+                <th scope="col"><span>#</span></th>
+                <th scope="col" data-order="desc"><span>Name</span></th>
+                <th scope="col"><span>Email</span></th>
+                <th scope="col"><span>Password</span></th>
+                <th scope="col"><span>Edit</span></th>
+                <th scope="col"><span>Delete</span></th>
             </tr>
-        </ng-container>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let user of allUsers; index as i">
+                <tr>
+                    <td scope="row"><span>{{i +1}}</span></td>
+                    <td><span>{{user.name}}</span></td>
+                    <td><span>{{user.email}}</span></td>
+                    <td><span>{{user.password}}</span></td>
+                    <td><button class="btn btn-warning" (click)="editUser(i, user)">Edit</button></td>
+                    <td><button class="btn btn-danger" (click)="deleteUser(user.id, user.name)">Delete</button></td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</ng-container>
+
+
+<ng-container *ngIf="isLogined === 'Customer'">
+    <table class="table ms-2">
+        <thead>
+            <tr>
+                <th scope="col"><span>#</span></th>
+                <th scope="col" data-order="desc"><span>Name</span></th>
+                <th scope="col"><span>Email</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let user of allUsers; index as i">
+                <tr>
+                    <td scope="row"><span>{{i +1}}</span></td>
+                    <td><span>{{user.name}}</span></td>
+                    <td><span>{{user.email}}</span></td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</ng-container>

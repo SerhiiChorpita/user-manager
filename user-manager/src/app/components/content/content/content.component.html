@@ -1,25 +1,26 @@
-<div class="main-container" [style]="!isLogined?'display: flex; justify-content: center;':''">
-    <!-- <div class="main-container"> -->
-    <ng-container *ngIf="!isLogined">
-        <div class="w100 d-flex justify-content-center align-items-center">
-            <router-outlet></router-outlet>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="isLogined">
-        <div class="left-container">
-            <button class="my-btn first-btn" [ngClass]="{'btn-active':btn1}" (click)="resetBtnValue(); btn1=true"
-                [routerLink]="['/my-page']">My Page</button>
-            <button class="my-btn second-btn" [ngClass]="{'btn-active':btn2}" (click)="resetBtnValue(); btn2=true"
-                [routerLink]="['/dashboard']">Dashboard</button>
-            <button class="my-btn third-btn" [ngClass]="{'btn-active':btn3}" (click)="resetBtnValue(); btn3=true"
-                [routerLink]="['/users']">Users</button>
-            <button class="my-btn last-btn" (click)="resetBtnValue(); checkLoginStatus(isLogined = false)"
-                [routerLink]="['/login']">Logout</button>
-        </div>
+<div class="main-container">
+    <div class="main-container" [style]="!isLogined?'display: flex; justify-content: center;':''">
+        <ng-container *ngIf="!isLogined">
+            <div class="w100 d-flex justify-content-center align-items-center">
+                <router-outlet></router-outlet>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isLogined">
+            <div class="left-container">
+                <button class="my-btn first-btn" [ngClass]="{'btn-active':btn1}" (click)="resetBtnValue(); btn1=true"
+                    [routerLink]="['/my-page']">My Page</button>
+                <button class="my-btn second-btn" [ngClass]="{'btn-active':btn2}" (click)="resetBtnValue(); btn2=true"
+                    [routerLink]="['/dashboard']">Dashboard</button>
+                <button class="my-btn third-btn" [ngClass]="{'btn-active':btn3}" (click)="resetBtnValue(); btn3=true"
+                    [routerLink]="['/users']">Users</button>
+                <button class="my-btn last-btn"
+                    (click)="resetBtnValue(); checkLoginStatus(isLogined = '');logout()">Logout
+                </button>
+            </div>
 
-        <div class="right-container">
-            <router-outlet></router-outlet>
-        </div>
-    </ng-container>
+            <div class="right-container">
+                <router-outlet></router-outlet>
+            </div>
+        </ng-container>
 
-</div>
+    </div>

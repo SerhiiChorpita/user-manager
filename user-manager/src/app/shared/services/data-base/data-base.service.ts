@@ -7,8 +7,7 @@ import { IUsersRequest, IUsersResponce } from '../../interfaces/users.interface'
   providedIn: 'root'
 })
 export class DataBaseService {
-
-  private usersUrl = 'http://localhost:3002/users';
+  private usersUrl = 'http://localhost:3000/api/users';
 
   constructor(
     private http: HttpClient,
@@ -19,6 +18,12 @@ export class DataBaseService {
   }
   addUser(user: IUsersRequest): Observable<IUsersRequest> {
     return this.http.post<IUsersRequest>(this.usersUrl, user)
+  }
+  updateUser(id: number, data: IUsersResponce): Observable<any> {
+    return this.http.put(`${this.usersUrl}/${id}`, data);
+  }
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.usersUrl}/${id}`);
   }
 
 }

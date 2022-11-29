@@ -9,7 +9,7 @@
   width: 100vw;
   min-height: fit-content;
   height: 100%;
-  padding: 100px 15px 30px 15px;
+  padding: 60px 15px 30px 15px;
 }
 
 .left-container {
@@ -26,12 +26,16 @@
   box-shadow: -1px 2px 12px 0px lightgrey;
   &:hover {
     .my-btn {
-      margin-bottom: 10px;
+      height: 60px;
     }
     .last-btn {
       margin: 0;
     }
   }
+}
+a {
+  color: black;
+  text-decoration: none;
 }
 .my-btn {
   display: flex;

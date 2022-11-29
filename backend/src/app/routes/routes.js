@@ -1,10 +1,10 @@
-const pool = require('../../config/app');
+const pool = require('../../config/app.config');
 
 const router = app => {
 
     // users
 
-    app.get('/users', (request, response) => {
+    app.get('/api/users', (request, response) => {
         pool.query('SELECT * FROM users', (error, result) => {
             if (error) throw error;
 
@@ -12,7 +12,7 @@ const router = app => {
         });
     });
 
-    app.get('/users/:id', (request, response) => {
+    app.get('/api/users/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('SELECT * FROM users WHERE id = ?', id, (error, result) => {
@@ -22,7 +22,7 @@ const router = app => {
         });
     });
 
-    app.post('/users', (req, res) => {
+    app.post('/api/users', (req, res) => {
         firstName = req.body.name,
             email = req.body.email,
             password = req.body.password,
@@ -40,7 +40,7 @@ const router = app => {
     });
 
 
-    app.put('/users/:id', (request, response) => {
+    app.put('/api/users/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('UPDATE users SET ? WHERE id = ?', [request.body, id], (error, result) => {
@@ -50,7 +50,7 @@ const router = app => {
         });
     });
 
-    app.delete('/users/:id', (request, response) => {
+    app.delete('/api/users/:id', (request, response) => {
         const id = request.params.id;
 
         pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
@@ -64,12 +64,12 @@ const router = app => {
 
     // auth
 
-    app.post('/sign-in', (req, res) => {
+    // app.post('/sign-in', (req, res) => {
 
-    });
-    app.post('/token', (req, res) => {
+    // });
+    // app.post('/token', (req, res) => {
 
-    });
+    // });
 }
 
 module.exports = router;

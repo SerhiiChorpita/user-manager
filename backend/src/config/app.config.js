@@ -7,6 +7,8 @@ const config = {
     database: 'api',
 };
 
+
+
 const pool = mysql.createPool(config);
 
 module.exports = pool;

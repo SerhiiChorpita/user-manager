@@ -1,21 +1,22 @@
 <div class="login-block">
-    <form #loginForm="ngForm">
+    <h1>Login</h1>
+    <form (ngSubmit)="onLoginSubmit()" #loginform="ngForm">
         <div class="login-block__container">
-            <div class="mb-3">
-                <h2>Login panel</h2>
+            <p>{{message}}</p>
+            <div class="mb-3 col-8">
+                <label for="exampleFormControlInput1" class="form-label">Enter Email address</label>
+                <input type="email" class="form-control" name="username" id="exampleFormControlInput1" ngModel required>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" name="email" id="exampleFormControlInput1"
-                    placeholder="your email here .." ngModel required>
+
+            <div class="mb-3 col-8">
+                <label for="inputPassword" class="form-label">Enter Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="password" autocomplete="off"
+                    ngModel required>
             </div>
-            <div class="mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                <input type="password" class="form-control" id="inputPassword" name="password"
-                    placeholder="your password here .." ngModel required>
+            <div class="d-flex justify-content-between col-8">
+                <button class="btn btn-warning" type="submit">Login</button>
+                <a routerLink="/register">Sign up</a>
             </div>
-            <button class="btn btn-warning" (click)="login(loginForm.value.email,loginForm.value.password)"
-                [disabled]="!loginForm.valid">Login</button>
         </div>
     </form>
 </div>

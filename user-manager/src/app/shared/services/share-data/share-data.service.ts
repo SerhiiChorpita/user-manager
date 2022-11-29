@@ -7,16 +7,16 @@ export class ShareDataService {
 
   loginChanged: EventEmitter<any> = new EventEmitter();
 
-  public isLogined!: boolean;
+  public isLogined!: string;
 
   constructor(
   ) { }
 
-  get Login(): boolean {
+  get Login(): string {
     return this.isLogined;
   }
 
-  set Login(val: boolean) {
+  set Login(val: string) {
     this.isLogined = val;
     this.loginChanged.emit(val);
   }
