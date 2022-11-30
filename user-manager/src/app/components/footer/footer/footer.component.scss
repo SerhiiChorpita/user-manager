@@ -7,10 +7,7 @@
   align-items: center;
   width: 100vw;
   height: 50px;
-  background-color: $secondaryColor;
-  border-radius: 10px 10px 0 0;
-  outline: 0.1rem dashed white;
-  outline-offset: -3px;
+  background: linear-gradient(147deg, rgba(126, 126, 126, 0.5) 45%, gray 64%);
   padding: 10px;
   box-shadow: 0 0 4px 1px $lightgray;
   position: fixed;

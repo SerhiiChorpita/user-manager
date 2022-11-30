@@ -6,10 +6,7 @@
   justify-content: space-between;
   width: 100vw;
   height: 90px;
-  background-color: $secondaryColor;
-  border-radius: 0 0 10px 10px;
-  outline: 0.1rem dashed white;
-  outline-offset: -3px;
+  background: linear-gradient(147deg, gray 20%, $secondaryColor 32%);
   padding: 10px;
   box-shadow: 0 0 4px 1px $lightgray;
   position: fixed;
@@ -17,41 +14,14 @@
   left: 0;
 }
 .d29 {
-  cursor: pointer;
-  width: 140px;
-  height: 68px;
-  background: $mainColor;
-  border-radius: 50%/10%;
-  outline: 0.1rem dashed $lightgray;
-  outline-offset: -5px;
-  position: relative;
-  top: 1px;
-  left: 8px;
-  box-shadow: 0 0 4px 1px white;
-  // &:hover {
-  //   box-shadow: 0 0 1px 3px yellow;
-  // }
-  // &:active {
-  //   top: 2px;
-  //   left: 9px;
-  //   width: 138px;
-  //   height: 66px;
-  //   box-shadow: 0 0 1px 3px greenyellow;
-  // }
-}
-.d29:before {
   display: flex;
   justify-content: center;
   align-items: center;
-  content: "USER-MANAGER";
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  right: -5%;
-  left: -5%;
-  background: $lightgray;
-  color: yellow;
-  border-radius: 5%/50%;
-  text-shadow: 1px 1px 2px white;
-  box-shadow: inset -2px 0px 20px 16px rgb(161 100 100);
+  cursor: pointer;
+  width: 140px;
+  height: 68px;
+  position: relative;
+  top: 1px;
+  left: 8px;
+  font-size: 20px;
 }

@@ -1,5 +1,7 @@
 @import "../../../shared/styles/variables";
-
+* {
+  color: black;
+}
 .main-block {
   display: flex;
   flex-flow: column nowrap;

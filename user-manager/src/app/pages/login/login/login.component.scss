@@ -1,5 +1,7 @@
 @import "../../../shared/styles/variables";
-
+* {
+  color: black;
+}
 .login-block {
   display: flex;
   flex-flow: column nowrap;
