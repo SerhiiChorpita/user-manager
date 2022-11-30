@@ -5,4 +5,4 @@ The system consists of 2 parts: Back-end (BE) part with REST API and Front-end (
 
 The authorization process will be JWT based.
 
-login: test@test.com password: test_test
+register the user to add it to mongoDB
