@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 @Component({
@@ -25,21 +26,28 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterSubmit() {
-    const username = this.registerForm.value.username;
+    const myMoment = moment().format('LLL');
+
+    const userName = this.registerForm.value.userName;
+    const phoneNumber = this.registerForm.value.phoneNumber;
+    const email = this.registerForm.value.email;
     const password = this.registerForm.value.password;
 
     const headers = new HttpHeaders({ 'Content-type': 'application/json' });
 
     const reqObject = {
-      username: username,
-      password: password
+      userName: userName,
+      phoneNumber: phoneNumber,
+      email: email,
+      password: password,
+      createdAt: myMoment,
+      updatedAt: myMoment
     };
 
     this.http.post('http://localhost:3000/users/register', reqObject, { headers: headers }).subscribe(
 
       (response) => {
         this.authService.setLocalStorage(response);
-        console.log(response);
       },
 
       (error) => {
@@ -52,7 +60,6 @@ export class RegisterComponent implements OnInit {
       },
 
       () => {
-        console.log('done!');
         this.router.navigate(['login']);
       }
 

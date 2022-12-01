@@ -151,3 +151,15 @@ Models:
    rowCount: number;
    pageCount: number;
    }}
+
+
+
+
+PS:
+
+db.createUser: create a new MongoDB user account
+db.updateUser: update the details of a user account
+db.changeUserPassword: change the password used by a user account
+db.dropUser: delete a MongoDB user account
+
+db.runCommand('usersInfo'): show information about one or more MongoDB user accounts

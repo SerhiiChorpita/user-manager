@@ -1,15 +1,29 @@
+
 export interface IUsersEdit {
-    name: string,
+    userName: string,
+    phoneNumber: number,
     email: string,
-    password: string,
+    rights: Array<string>,
     updatedAt: string;
 }
 export interface IUsersRequest extends IUsersEdit {
     createdAt: string,
 }
 export interface IUsersResponce extends IUsersRequest {
-    id: number,
+    password: string,
+    _id: number
 }
 export interface IUserName {
     name: string
 }
+
+export interface IUsersDetails {
+    _id: number,
+    userName: string,
+    phoneNumber: number,
+    rights: Array<string>,
+    email: string,
+    createdAt: string,
+    updatedAt: string
+}
+

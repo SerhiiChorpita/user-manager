@@ -17,7 +17,7 @@ router.get('/my-page', passport.authenticate('jwt', { session: false }), (req, r
 // Validate an existing user and issue a JWT
 router.post('/login', function (req, res, next) {
 
-    User.findOne({ username: req.body.username })
+    User.findOne({ email: req.body.email })
         .then((user) => {
 
             if (!user) {
@@ -31,7 +31,7 @@ router.post('/login', function (req, res, next) {
 
                 const tokenObject = utils.issueJWT(user);
 
-                res.status(200).json({ success: true, user: req.body.username, token: tokenObject.token, expiresIn: tokenObject.expires });
+                res.status(200).json({ success: true, user: req.body.email, token: tokenObject.token, expiresIn: tokenObject.expires });
 
             } else {
 
@@ -53,9 +53,14 @@ router.post('/register', function (req, res, next) {
     const hash = saltHash.hash;
 
     const newUser = new User({
-        username: req.body.username,
+        userName: req.body.userName,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        rights: req.body.rights,
         hash: hash,
-        salt: salt
+        salt: salt,
+        createdAt: req.body.createdAt,
+        updatedAt: req.body.updatedAt
     });
 
     try {

@@ -36,8 +36,8 @@ export class ContentComponent implements OnInit {
       if (user) {
         if (user === 'admin@gmail.com') {
           this.isLogined = 'ADMIN';
-        } else if (user === 'customer@gmail.com') {
-          this.isLogined = 'Customer';
+        } else {
+          this.isLogined = 'User';
         }
       }
     }

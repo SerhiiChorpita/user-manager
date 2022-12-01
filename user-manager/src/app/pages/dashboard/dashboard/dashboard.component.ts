@@ -34,8 +34,8 @@ export class DashboardComponent implements OnInit {
           this.message = response.msg;
           if (user === 'admin@gmail.com') {
             this.clientLoginStatus('ADMIN');
-          } else if (user === 'customer@gmail.com') {
-            this.clientLoginStatus('Customer');
+          } else {
+            this.clientLoginStatus('User');
           }
         }
       },

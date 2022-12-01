@@ -1,75 +1,53 @@
-const pool = require('../../config/app.config');
+const mongoose = require('mongoose');
+
+const { UserSchema } = require('../../../models/user');
+
+const User = mongoose.model('User', UserSchema);;
 
 const router = app => {
 
-    // users
+    // MONGO DB
 
-    app.get('/api/users', (request, response) => {
-        pool.query('SELECT * FROM users', (error, result) => {
+    app.get('/mon/users', (request, response) => {
+        User.find({ showCustomData: false }, (error, result) => {
             if (error) throw error;
-
-            response.send(result);
+            response.json(result);
         });
     });
 
-    app.get('/api/users/:id', (request, response) => {
-        const id = request.params.id;
-
-        pool.query('SELECT * FROM users WHERE id = ?', id, (error, result) => {
-            if (error) throw error;
-
-            response.send(result);
-        });
+    app.get('/mon/users/:id', (request, response) => {
+        User.findById(request.params.id)
+            .then(doc => {
+                if (!doc) return response.status(404).end();
+                return response.status(200).json(doc);
+            })
+            .catch(err => console.log(err));
     });
 
-    app.post('/api/users', (req, res) => {
-        firstName = req.body.name,
-            email = req.body.email,
-            password = req.body.password,
-            createdAt = req.body.createdAt,
-            updatedAt = req.body.updatedAt;
+    app.put('/mon/users/:id', (request, response) => {
+        var conditions = { _id: request.params.id };
+        console.log(request.body);
+        console.log(conditions);
+        User.updateOne(conditions, request.body)
+            .then(doc => {
+                if (!doc) return response.status(404).end();
+                return response.status(200).json(doc);
+            })
+            .catch(err => console.log(err));
+    })
 
-        let sql = `INSERT INTO users (name, email, password, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)`;
 
-        pool.query(sql, [firstName, email, password, createdAt, updatedAt], (error) => {
-            if (!error)
-                res.send("User successfully added");
-            else
-                console.log(error);
-        });
+    app.delete('/mon/users/:id', (request, response) => {
+        User.findByIdAndRemove(request.params.id)
+            .exec()
+            .then(doc => {
+                if (!doc) return response.status(404).end();
+                return response.status(200).json(doc);
+            })
+            .catch(err => next(err));
     });
 
-
-    app.put('/api/users/:id', (request, response) => {
-        const id = request.params.id;
-
-        pool.query('UPDATE users SET ? WHERE id = ?', [request.body, id], (error, result) => {
-            if (error) throw error;
-
-            response.send('User updated successfully.');
-        });
-    });
-
-    app.delete('/api/users/:id', (request, response) => {
-        const id = request.params.id;
-
-        pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
-            if (error) throw error;
-
-            response.send('User successfuly deleted.');
-        });
-    });
-
-
-
-    // auth
-
-    // app.post('/sign-in', (req, res) => {
-
-    // });
-    // app.post('/token', (req, res) => {
-
-    // });
 }
+
 
 module.exports = router;

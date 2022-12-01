@@ -40,13 +40,13 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
-    const username = this.loginForm.value.username;
+    const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
 
     const headers = new HttpHeaders({ 'Content-type': 'application/json' });
 
     const reqObject = {
-      username: username,
+      email: email,
       password: password
     };
 
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
 
         if (user === 'admin@gmail.com') {
           this.checkLoginStatus('ADMIN');
-        } else if (user === 'customer@gmail.com') {
+        } else {
           this.checkLoginStatus('Customer');
         }
       },

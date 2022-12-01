@@ -19,13 +19,8 @@ module.exports = (passport) => {
     // The JWT payload is passed into the verify callback
     passport.use(new JwtStrategy(options, function (jwt_payload, done) {
 
-        // console.log(jwt_payload);
-
-        // We will assign the `sub` property on the JWT to the database ID of user
         User.findOne({ _id: jwt_payload.sub }, function (err, user) {
 
-            // This flow look familiar?  It is the same as when we implemented
-            // the `passport-local` strategy
             if (err) {
                 return done(err, false);
             }

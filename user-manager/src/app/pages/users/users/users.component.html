@@ -31,20 +31,16 @@
                 <th scope="col"><span>#</span></th>
                 <th scope="col" data-order="desc"><span>Name</span></th>
                 <th scope="col"><span>Email</span></th>
-                <th scope="col"><span>Password</span></th>
-                <th scope="col"><span>Edit</span></th>
-                <th scope="col"><span>Delete</span></th>
+                <th scope="col"><span></span></th>
             </tr>
         </thead>
         <tbody>
             <ng-container *ngFor="let user of allUsers; index as i">
                 <tr>
                     <td scope="row"><span>{{i +1}}</span></td>
-                    <td><span>{{user.name}}</span></td>
+                    <td><span>{{user.userName}}</span></td>
                     <td><span>{{user.email}}</span></td>
-                    <td><span>{{user.password}}</span></td>
-                    <td><button class="btn btn-warning" (click)="editUser(i, user)">Edit</button></td>
-                    <td><button class="btn btn-danger" (click)="deleteUser(user.id, user.name)">Delete</button></td>
+                    <td class="text-end"><button class="btn btn-light">Details</button></td>
                 </tr>
             </ng-container>
         </tbody>
@@ -52,7 +48,7 @@
 </ng-container>
 
 
-<ng-container *ngIf="isLogined === 'Customer'">
+<ng-container *ngIf="isLogined !== 'ADMIN'">
     <table class="table ms-2">
         <thead>
             <tr>
@@ -63,11 +59,20 @@
         </thead>
         <tbody>
             <ng-container *ngFor="let user of allUsers; index as i">
-                <tr>
-                    <td scope="row"><span>{{i +1}}</span></td>
-                    <td><span>{{user.name}}</span></td>
-                    <td><span>{{user.email}}</span></td>
-                </tr>
+                <ng-container *ngIf="user.email === 'admin@gmail.com'">
+                    <tr>
+                        <td scope="row"><span>{{i +1}}</span></td>
+                        <td><span>{{user.userName}}</span></td>
+                        <td><span>not available</span></td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="user.email != 'admin@gmail.com'">
+                    <tr>
+                        <td scope="row"><span>{{i +1}}</span></td>
+                        <td><span>{{user.userName}}</span></td>
+                        <td><span>{{user.email}}</span></td>
+                    </tr>
+                </ng-container>
             </ng-container>
         </tbody>
     </table>

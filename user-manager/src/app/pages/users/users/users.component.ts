@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
-import { IUsersRequest, IUsersResponce } from 'src/app/shared/interfaces/users.interface';
+import { IUsersDetails, IUsersRequest, IUsersResponce } from 'src/app/shared/interfaces/users.interface';
 import { DataBaseService } from 'src/app/shared/services/data-base/data-base.service';
 import { NotitionService } from 'src/app/shared/services/notition/notition.service';
 import { ShareDataService } from 'src/app/shared/services/share-data/share-data.service';
@@ -14,10 +14,12 @@ import { ShareDataService } from 'src/app/shared/services/share-data/share-data.
 export class UsersComponent implements OnInit {
   public isLogined!: string;
   public users!: IUsersResponce;
-  public allUsers: Array<IUsersResponce> = [];
+  private allUsersPrivate: Array<IUsersResponce> = [];
+  public allUsers: Array<IUsersDetails> = [];
 
   public editStatus: boolean = false;
   public formName!: string;
+  public formPhone!: number;
   public formEmail!: string;
   public formPass!: string;
   public currentId!: number;
@@ -34,38 +36,58 @@ export class UsersComponent implements OnInit {
     this.isLogined = clientLogin;
   }
 
-
   ngOnInit(): void {
     let user = localStorage.getItem('user');
 
     if (user === 'admin@gmail.com') {
       this.clientLoginStatus('ADMIN');
-    } else if (user === 'customer@gmail.com') {
-      this.clientLoginStatus('Customer');
+    } else {
+      this.clientLoginStatus('User');
     }
 
     this.getUsersList();
   }
 
   getUsersList(): void {
+
     this.database.getUsers().subscribe(
       (data) => {
-        this.allUsers = data;
-        this.sort();
+        this.allUsersPrivate = data;
+
+        data.forEach((element, index) => {
+          let newUser: IUsersDetails = {
+            _id: this.allUsersPrivate[index]._id,
+            userName: this.allUsersPrivate[index].userName,
+            email: this.allUsersPrivate[index].email,
+            phoneNumber: this.allUsersPrivate[index].phoneNumber,
+            rights: [],
+            createdAt: this.allUsersPrivate[index].createdAt,
+            updatedAt: this.allUsersPrivate[index].updatedAt
+          }
+
+          this.allUsers.push(newUser);
+          this.sort();
+
+
+        });
+
       },
       error => this.notify.error(error)
     )
   }
 
+
+  // TODO:
   addUserToList(from: NgForm): void {
     let newForm = from.value;
 
     let myMoment = moment().format('LLL');
 
     let newUser: IUsersRequest = {
-      name: newForm.name,
+      userName: newForm.name,
+      phoneNumber: newForm.phone,
       email: newForm.email,
-      password: newForm.password,
+      rights: [],
       createdAt: myMoment,
       updatedAt: myMoment
     }
@@ -82,24 +104,31 @@ export class UsersComponent implements OnInit {
     from.reset();
   }
 
+
+  // TODO:
   editUser(id: number, data: IUsersResponce): void {
     this.editStatus = true;
     this.currentId = id;
-    this.formName = data.name;
+    this.formName = data.userName;
+    this.formPhone = data.phoneNumber;
     this.formEmail = data.email;
     this.formPass = data.password;
   }
 
+
+  // TODO:
   updateUser(from: NgForm): void {
     let myMoment = moment().format('LLL');
-    let userId = this.allUsers[this.currentId].id;
+    let userId = this.allUsers[this.currentId]._id;
     let userCreatedAt = this.allUsers[this.currentId].createdAt;
 
     let updateUser: IUsersResponce = {
-      id: userId,
+      _id: userId,
       createdAt: userCreatedAt,
-      name: this.formName,
+      userName: this.formName,
+      phoneNumber: this.formPhone,
       email: this.formEmail,
+      rights: [],
       password: this.formPass,
       updatedAt: myMoment
     }
@@ -116,7 +145,7 @@ export class UsersComponent implements OnInit {
     from.reset();
   }
 
-
+  // TODO:
   deleteUser(idUser: number, userName: string): void {
     this.database.deleteUser(idUser).subscribe(() => {
     },
@@ -131,7 +160,7 @@ export class UsersComponent implements OnInit {
   }
 
   sort(): void {
-    this.allUsers.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+    this.allUsers.sort((a, b) => (a.userName > b.userName) ? 1 : ((b.userName > a.userName) ? -1 : 0))
   }
 
 }

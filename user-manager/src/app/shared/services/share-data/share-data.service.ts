@@ -20,4 +20,5 @@ export class ShareDataService {
     this.isLogined = val;
     this.loginChanged.emit(val);
   }
+
 }
