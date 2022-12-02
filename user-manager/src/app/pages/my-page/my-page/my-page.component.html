@@ -6,7 +6,8 @@
                     <button type="submit" class="btn btn-success" [disabled]="!updateUser.valid">Save</button>
                 </ng-container>
                 <ng-container *ngIf="!editStatus">
-                    <button type="button" class="btn btn-warning" (click)="editStatus = true">Edit</button>
+                    <button type="button" class="btn btn-warning"
+                        (click)="editStatus = true;reSetEditStatus(editStatus)">Edit</button>
                 </ng-container>
             </div>
             <div class="col d-flex align-items-center mb-4">
@@ -46,8 +47,17 @@
                             </label>
                         </div>
                     </div>
+                    <div class="col mb-2">
+                        <div class="col-6 centerd">
+                            <p>rights:</p>
+                        </div>
+                        <div class="col-6">
+                            <ul>
+                                <li *ngFor="let item of formRights">{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </form>
         <p>updated: {{ myUser.updatedAt }}</p>

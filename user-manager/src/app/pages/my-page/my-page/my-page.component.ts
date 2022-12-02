@@ -4,8 +4,9 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
-import { IUsersDetails, IUsersEdit } from 'src/app/shared/interfaces/users.interface';
+import { IUsersDetails, IUsersEdit, IUsersResponce } from 'src/app/shared/interfaces/users.interface';
 import { DataBaseService } from 'src/app/shared/services/data-base/data-base.service';
+import { EditGuard } from 'src/app/shared/services/guards/edit/edit.guard';
 import { NotitionService } from 'src/app/shared/services/notition/notition.service';
 import { ShareDataService } from 'src/app/shared/services/share-data/share-data.service';
 
@@ -27,21 +28,28 @@ export class MyPageComponent implements OnInit {
   public formName!: string;
   public formPhoneNumber!: number;
   public formEmail!: string;
+  public formRights!: Array<string>;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private database: DataBaseService,
     private notify: NotitionService,
-    private shareData: ShareDataService
+    private shareData: ShareDataService,
+    private editData: EditGuard
   ) {
     shareData.loginChanged.subscribe(clientDate => this.clientLoginStatus(clientDate));
+    editData.myPageChanged.subscribe(myStatus => this.setEditStatus(myStatus));
   }
 
   ngOnInit() {
-    this.checkLogin();
     this.getMyDetails();
-
+  }
+  setEditStatus(myStatus: boolean): boolean {
+    return this.editStatus = myStatus;
+  }
+  reSetEditStatus(myStatus: boolean): void {
+    this.editData.myPage = myStatus;
   }
 
   updateUserData(form: NgForm): void {
@@ -51,18 +59,17 @@ export class MyPageComponent implements OnInit {
       userName: this.formName,
       phoneNumber: this.formPhoneNumber,
       email: this.formEmail,
-      rights: ['can_edit_users_full'],
+      rights: this.formRights,
       updatedAt: myMoment
     }
-    console.log(this.myUser._id);
-    console.log(updatedUser);
-
 
     this.database.updateUser(this.myUser._id, updatedUser).subscribe(() => {
+      this.notify.notise(`${updatedUser.userName} was updated successfully`)
     },
       error => this.notify.error(error)
     );
     this.editStatus = false;
+    this.reSetEditStatus(this.editStatus);
     this.getMyDetails();
   }
 
@@ -70,56 +77,40 @@ export class MyPageComponent implements OnInit {
     this.formName = this.myUser.userName;
     this.formPhoneNumber = this.myUser.phoneNumber;
     this.formEmail = this.myUser.email;
+    this.formRights = this.myUser.rights;
   }
 
   getMyDetails(): void {
     this.database.getUsers().subscribe(
       (data) => {
-        let userEmail = localStorage.getItem('user');
-
-        data.find(item => {
-          if (item.email === userEmail) {
-            this.userId = item._id;
-            this.database.getUserDetails(this.userId).subscribe(
-              (data) => {
-                this.myUser = data;
-
-                this.isDataAvailable = true;
-
-                this.formAddData();
-              },
-              error => this.notify.error(error)
-            )
-          }
-        })
+        this.getUser(data);
       },
       error => this.notify.error(error)
     )
-  }
-
-  checkLogin(): void {
-    this.http.get<any>('http://localhost:3000/users/my-page').subscribe(
-      (response) => {
-        if (response) {
-          this.message = response.msg;
-        }
-      },
-      (error) => {
-        if (error.status === 401) {
-          this.notify.error('You are not authorized to visit this route.  No data is displayed.');
-        }
-        this.router.navigate(['login']);
-      }
-    );
   }
 
   clientLoginStatus(clientLogin: string): void {
     this.isLogined = clientLogin;
   }
 
-  getUser(): void {
+  getUser(data: IUsersResponce[]): void {
+    let userEmail = localStorage.getItem('user');
 
-    // this.database.
+    data.find(item => {
+      if (item.email === userEmail) {
+        this.userId = item._id;
+        this.database.getUserDetails(this.userId).subscribe(
+          (data) => {
+            this.myUser = data;
+
+            this.isDataAvailable = true;
+
+            this.formAddData();
+          },
+          error => this.notify.error(error)
+        )
+      }
+    })
   }
 
 }

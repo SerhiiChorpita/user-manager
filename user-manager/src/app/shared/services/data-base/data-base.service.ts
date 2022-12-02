@@ -26,8 +26,6 @@ export class DataBaseService {
   }
 
   updateUser(id: number, data: IUsersEdit): Observable<IUsersEdit> {
-    console.log('IT`S WORKING');
-
     return this.http.put<IUsersEdit>(`${this.usersUrl}/${id}`, data);
   }
 

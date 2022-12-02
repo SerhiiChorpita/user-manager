@@ -49,7 +49,6 @@ export class UsersComponent implements OnInit {
   }
 
   getUsersList(): void {
-
     this.database.getUsers().subscribe(
       (data) => {
         this.allUsersPrivate = data;
@@ -74,6 +73,11 @@ export class UsersComponent implements OnInit {
       },
       error => this.notify.error(error)
     )
+  }
+
+
+  toUserDetails(id: number): void {
+
   }
 
 

@@ -1,1 +1,67 @@
-<p>user-details works!</p>
+<div *ngIf="isDataAvailable">
+    <div class="container">
+        <form #updateUser="ngForm" (submit)="updateUserData(updateUser)" ngNativeValidate>
+            <div class="mb-4">
+                <ng-container *ngIf="editStatus">
+                    <button type="submit" class="btn btn-success" [disabled]="!updateUser.valid">Save</button>
+                </ng-container>
+                <ng-container *ngIf="!editStatus">
+                    <button type="button" class="btn btn-warning"
+                        (click)="editStatus = true;reSetEditStatus(editStatus)">Edit</button>
+                </ng-container>
+            </div>
+            <div class="col d-flex align-items-center mb-4">
+                <div class="col">
+                    <div class="row mb-2">
+                        <div class="col-6 centerd">
+                            <p>name:</p>
+                        </div>
+                        <div class="col-6">
+                            <label class="me-2">
+                                <input type="text" class="form-control" name="name" pattern="[a-zA-Z]{2,16}"
+                                    [(ngModel)]="formName" required [disabled]="!editStatus">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-6 centerd">
+                            <p>email:</p>
+                        </div>
+                        <div class="col-6">
+                            <label class="me-2">
+                                <input type="text" class="form-control" name="email"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="formEmail" required
+                                    [disabled]="!editStatus">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6 centerd">
+                            <p>phone number:</p>
+                        </div>
+                        <div class="col-6">
+                            <label class="me-2">
+                                <input type="tel" class="form-control" name="phoneNumber" [(ngModel)]="formPhoneNumber"
+                                    required [disabled]="!editStatus">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col mb-2">
+                        <div class="col-6 centerd">
+                            <p>rights:</p>
+                        </div>
+                        <div class="col-6">
+                            <ul>
+                                <li *ngFor="let item of formRights">{{item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <p>updated: {{ myUser.updatedAt }}</p>
+        <hr>
+        <p>created: {{ myUser.createdAt }}</p>
+    </div>
+</div>

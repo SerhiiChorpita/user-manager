@@ -31,14 +31,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  clientLoginStatus(clientLogin: string): void {
-    this.isLogined = clientLogin;
-  }
-
-  checkLoginStatus(isLogined: string): void {
-    this.shareData.Login = isLogined;
-  }
-
   onLoginSubmit() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
@@ -60,7 +52,7 @@ export class LoginComponent implements OnInit {
         if (user === 'admin@gmail.com') {
           this.checkLoginStatus('ADMIN');
         } else {
-          this.checkLoginStatus('Customer');
+          this.checkLoginStatus('User');
         }
       },
 
@@ -77,5 +69,12 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  clientLoginStatus(clientLogin: string): void {
+    this.isLogined = clientLogin;
+  }
+
+  checkLoginStatus(isLogined: string): void {
+    this.shareData.Login = isLogined;
+  }
 
 }
