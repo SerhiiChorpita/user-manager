@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'users', loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule), canActivate: [AuthGuard] },
   {
-    path: 'users/:id', loadChildren: () => import('./pages/user-details/user-details.module').then(m => m.UserDetailsModule), canActivate: [AuthGuard],
+    path: 'users/:id', loadChildren: () => import('./pages/user-details/user-details.module').then(m => m.UserDetailsModule), canActivate: [AuthGuard], canDeactivate: [EditGuard],
     resolve: {
       productInfo: UserDetailsResolver
     }

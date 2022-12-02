@@ -27,3 +27,7 @@ export interface IUsersDetails {
     updatedAt: string
 }
 
+export interface IRights {
+    rights: Array<string>
+}
+

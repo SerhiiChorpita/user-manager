@@ -32,7 +32,8 @@
                             <label class="me-2">
                                 <input type="text" class="form-control" name="email"
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="formEmail" required
-                                    [disabled]="!editStatus">
+                                    [disabled]="!editStatus" [readOnly]="formEmail !== this.localName"
+                                    [ngClass]="{'dis-email': formEmail !== this.localName}">
                             </label>
                         </div>
                     </div>
@@ -48,16 +49,47 @@
                         </div>
                     </div>
                     <div class="col mb-2">
+                        <ng-container *ngIf="isLogined === 'ADMIN'">
+                            <i>
+                                <p style="color: grey; font-size:14px;">(You can change user rights. to change them,
+                                    click
+                                    on it.)</p>
+                            </i>
+                        </ng-container>
                         <div class="col-6 centerd">
                             <p>rights:</p>
                         </div>
                         <div class="col-6">
+
                             <ul>
-                                <ng-container *ngIf="formRights.length === 0">
-                                    <li>no rights</li>
+                                <ng-container *ngIf="formRights.length === 0 && formEmail === this.localName">
+                                    <li class="disabled-rights">no rights</li>
+                                </ng-container>
+                                <ng-container *ngIf="isLogined !== 'ADMIN' || this.localName === formEmail">
+                                    <li *ngFor="let item of formRights">{{item}}</li>
+                                </ng-container>
+                                <!-- <ng-container *ngIf="this.localName === formEmail">
+                                    <li *ngFor="let item of formRights">{{item}}</li>
+                                </ng-container> -->
+
+
+
+                                <ng-container *ngIf="isLogined === 'ADMIN' && formEmail !== this.localName">
+                                    <li [ngClass]="{'active-rights': canViewUsers, 'disabled-rights': !canViewUsers}"
+                                        (click)="changeRights('can_view_users')">
+                                        can_view_users
+                                    </li>
+                                    <li [ngClass]="{'active-rights': canViewDetails, 'disabled-rights': !canViewDetails}"
+                                        (click)="changeRights('can_view_details')">
+                                        can_view_details</li>
+                                    <li [ngClass]="{'active-rights': canEditUsers, 'disabled-rights': !canEditUsers}"
+                                        (click)="changeRights('can_edit_users')">
+                                        can_edit_users</li>
+                                    <li [ngClass]="{'active-rights': canDeleteUsers, 'disabled-rights': !canDeleteUsers}"
+                                        (click)="changeRights('can_delete_users')">
+                                        can_delete_users</li>
                                 </ng-container>
 
-                                <li *ngFor="let item of formRights">{{item}}</li>
                             </ul>
                         </div>
                     </div>

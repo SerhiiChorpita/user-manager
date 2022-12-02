@@ -25,8 +25,8 @@ export class DataBaseService {
     return this.http.post<IUsersRequest>(this.usersUrl, user)
   }
 
-  updateUser(id: number, data: IUsersEdit): Observable<IUsersEdit> {
-    return this.http.put<IUsersEdit>(`${this.usersUrl}/${id}`, data);
+  updateUser(id: number, data: Object): Observable<Object> {
+    return this.http.put<Object>(`${this.usersUrl}/${id}`, data);
   }
 
   deleteUser(id: number): Observable<any> {
