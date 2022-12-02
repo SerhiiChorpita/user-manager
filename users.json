@@ -5,13 +5,14 @@
   "userName": "admin",
   "phoneNumber": 321654987,
   "rights": [
-    "can_edit_users_full"
+    "can_edit_users_full",
+    "can_view_details_full"
   ],
   "email": "admin@gmail.com",
   "hash": "9295d97dca9c8c9b28d61f299df8bbce247a633c174a4c8cc0f6d5519545a4d7d4e772e4c1286a83e9ccf6041cbe337bf1e7f2fa93d57032ba0619641500b35e",
   "salt": "89be27a728f3bd8984f5eac147f142f678c6f1002b950c96e3bdf3364f1e2119",
   "createdAt": "December 1, 2022 3:54 PM",
-  "updatedAt": "December 1, 2022 8:49 PM",
+  "updatedAt": "December 2, 2022 10:49 PM",
   "__v": 0
 },{
   "_id": {
@@ -21,11 +22,29 @@
   "phoneNumber": {
     "$numberLong": "3756643147"
   },
-  "rights": [],
+  "rights": [
+    "can_view_details",
+    "can_view_users"
+  ],
   "email": "test@test.com",
   "hash": "31022b8b74f974b0a1d74b6ae1bc57197feac170aeb625acb87cdf8e29ef4e7d22900eeaa61e5d7b1393848709be5eee99a82415e48766bb524882abd6a20ee5",
   "salt": "b954dadca0c5f105d491540428b2332cdfcccc29f14ae270e699103c0d6f91a2",
   "createdAt": "December 1, 2022 6:06 PM",
-  "updatedAt": "December 1, 2022 6:06 PM",
+  "updatedAt": "December 3, 2022 12:47 AM",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "638a87cd782a81a33672d498"
+  },
+  "userName": "testy",
+  "phoneNumber": 123456789,
+  "rights": [
+    "can_view_users"
+  ],
+  "email": "testy@gmail.com",
+  "hash": "797433560def1e32051e07ccdc3cfea43051eeda6c3828ab31c46a487b5c8a6ca970e0eacf179a185d2fc2b44cb29f4ccbf3541f9e540dde96e267ab11f71176",
+  "salt": "bad176a62e71a354872f6d1941340dd534fb067184ca61fd029cd99e42e8a632",
+  "createdAt": "December 3, 2022 12:18 AM",
+  "updatedAt": "December 3, 2022 12:18 AM",
   "__v": 0
 }]
