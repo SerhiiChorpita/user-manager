@@ -1,3 +1,15 @@
+* {
+  transition: all 0.3s;
+}
+
 .table {
-  width: 98%;
+  width: 60vw;
+}
+.open-menu {
+  opacity: 1;
+  height: auto;
+}
+.close-menu {
+  opacity: 0;
+  height: 0;
 }

@@ -17,6 +17,8 @@ import { ShareDataService } from 'src/app/shared/services/share-data/share-data.
 })
 export class UserDetailsComponent implements OnInit {
   @ViewChild('updateuser', { static: false }) updateUser!: NgForm;
+  public myUserIn!: IUsersDetails;
+  public canEditSelf!: boolean;
 
   public isDataAvailable: boolean = false;
   public message!: string;
@@ -54,6 +56,8 @@ export class UserDetailsComponent implements OnInit {
       this.checkRightsFalse(elem);
       this.checkRightsTrue(elem);
     })
+    this.getMyDetails();
+
   }
 
   setEditStatus(myStatus: boolean): boolean {
@@ -112,16 +116,19 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
-  checkRightsTrue(addKey?: string): boolean {
-
+  checkRightsTrue(addKey: string): boolean {
     switch (addKey) {
       case 'can_view_users':
+      case 'can_view_details_full':
         return this.canViewUsers = true;
       case 'can_view_details':
+      case 'can_view_details_full':
         return this.canViewDetails = true;
       case 'can_edit_users':
+      case 'can_edit_users_full':
         return this.canEditUsers = true;
       case 'can_delete_users':
+      case 'can_edit_users_full':
         return this.canDeleteUsers = true;
       default:
         break;
@@ -129,7 +136,7 @@ export class UserDetailsComponent implements OnInit {
     return true
 
   }
-  checkRightsFalse(delKey?: string): boolean {
+  checkRightsFalse(delKey: string): boolean {
     switch (delKey) {
       case 'can_view_users':
         return this.canViewUsers = false;
@@ -195,6 +202,35 @@ export class UserDetailsComponent implements OnInit {
         console.log('false', this.myUser.rights);
       }
     }
+  }
+
+  getMyDetails(): void {
+    this.database.getUsers().subscribe(
+      (data) => {
+        this.getUserIn(data);
+      },
+      error => this.notify.error(error)
+    )
+  }
+
+  getUserIn(data: IUsersResponce[]): void {
+    let userEmail = localStorage.getItem('user');
+
+    data.find(item => {
+      if (item.email === userEmail) {
+        this.userId = item._id;
+        this.database.getUserDetails(this.userId).subscribe(
+          (data) => {
+            this.myUserIn = data;
+            if (this.myUserIn.email, this.localName) {
+              this.canEditSelf = true;
+            }
+
+          },
+          error => this.notify.error(error)
+        )
+      }
+    })
   }
 
 }

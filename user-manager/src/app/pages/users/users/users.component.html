@@ -1,28 +1,44 @@
-<div class="container">
-    <form #newUser="ngForm" (submit)="editStatus?updateUser(newUser):addUserToList(newUser)" ngNativeValidate>
-        <div class="col d-flex align-items-center mb-4">
-            <label class="me-2">
-                <input type="text" class="form-control" name="name" pattern="[a-zA-Z]{2,16}" placeholder="name"
-                    [(ngModel)]="formName" required>
-            </label>
-            <label class="me-2">
-                <input type="text" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                    placeholder="email" [(ngModel)]="formEmail" required>
-            </label>
-            <label class="me-2">
-                <input type="password" class="form-control" name="password" placeholder="password" autocomplete="off"
-                    [(ngModel)]="formPass" required>
-            </label>
-            <ng-container *ngIf="editStatus">
-                <button type="submit" class="btn btn-success">Save</button>
-            </ng-container>
-            <ng-container *ngIf="!editStatus">
-                <button type="submit" class="btn btn-warning" [disabled]="!newUser.valid">Add</button>
-            </ng-container>
-
-        </div>
-    </form>
+<div class="col d-flex align-items-center mb-4" *ngIf="isLogined === 'ADMIN'">
+    <button class="btn" [class]="addNewUser? 'btn-warning':'btn-light'" (click)="changeAddNewUser()">
+        {{!addNewUser?'Add New User':'Close window'}}</button>
 </div>
+
+<ng-container *ngIf="addNewUser">
+    <div class="container" [ngClass]="{'open-menu': addNewUser, 'close-menu': !addNewUser}">
+        <form #newUser="ngForm" (submit)="addUserToList(newUser);changeAddNewUser()" ngNativeValidate>
+            <div class="col d-flex align-items-center mb-4">
+                <label class="me-2">
+                    <input type="text" class="form-control" name="name" pattern="[a-zA-Z]{2,16}" placeholder="name"
+                        [(ngModel)]="formName" required>
+                </label>
+                <label class="me-2">
+                    <input type="email" class="form-control" name="email"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="email" [(ngModel)]="formEmail"
+                        required>
+                </label>
+                <label class="me-2">
+                    <input type="tel" class="form-control" name="phone" pattern="[0-9]{6,10}$"
+                        placeholder="phone number" [(ngModel)]="formPhone" required>
+                </label>
+            </div>
+
+            <div class="col d-flex align-items-center mb-4">
+
+
+                <label class="me-2">
+                    <input type="password" class="form-control" name="pass" placeholder="password" autocomplete="off"
+                        [(ngModel)]="formPass" required>
+                </label>
+                <label class="me-2">
+                    <input type="password" class="form-control" name="pass2" placeholder="confirm password"
+                        autocomplete="off" [pattern]="formPass" [(ngModel)]="formPass2" required>
+                </label>
+
+                <button type="submit" class="btn btn-success" [disabled]="!newUser.valid">Add</button>
+            </div>
+        </form>
+    </div>
+</ng-container>
 
 <ng-container *ngIf="isLogined === 'ADMIN'">
     <table class="table ms-2">
@@ -32,6 +48,7 @@
                 <th scope="col" data-order="desc"><span>Name</span></th>
                 <th scope="col"><span>Email</span></th>
                 <th scope="col"><span></span></th>
+                <th scope="col"><span></span></th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +57,8 @@
                     <td scope="row"><span>{{i +1}}</span></td>
                     <td><span>{{user.userName}}</span></td>
                     <td><span>{{user.email}}</span></td>
+                    <td class="text-end"><button class="btn btn-warning" (click)="deleteUser(user._id, user.userName)"
+                            [disabled]="canDeleteUsers">Delete</button></td>
                     <td class="text-end"><button class="btn btn-light"
                             (click)="toUserDetails(user._id)">Details</button></td>
                 </tr>
@@ -48,14 +67,16 @@
     </table>
 </ng-container>
 
-
-<ng-container *ngIf="isLogined !== 'ADMIN'">
+<h3 *ngIf="!canViewUsers && isLogined !== 'ADMIN'">You do not have rights to view the list of users</h3>
+<ng-container *ngIf="isLogined !== 'ADMIN' && canViewUsers">
     <table class="table ms-2">
         <thead>
             <tr>
                 <th scope="col"><span>#</span></th>
                 <th scope="col" data-order="desc"><span>Name</span></th>
                 <th scope="col"><span>Email</span></th>
+                <th scope="col"><span></span></th>
+                <th scope="col"><span></span></th>
             </tr>
         </thead>
         <tbody>
@@ -64,7 +85,8 @@
                     <tr>
                         <td scope="row"><span>{{i +1}}</span></td>
                         <td><span>{{user.userName}}</span></td>
-                        <td><span>not available</span></td>
+                        <td><span>email not available</span></td>
+                        <td><span>details not available</span></td>
                     </tr>
                 </ng-container>
                 <ng-container *ngIf="user.email != 'admin@gmail.com'">
@@ -72,6 +94,11 @@
                         <td scope="row"><span>{{i +1}}</span></td>
                         <td><span>{{user.userName}}</span></td>
                         <td><span>{{user.email}}</span></td>
+                        <td class="text-end"><button class="btn btn-warning"
+                                (click)="deleteUser(user._id, user.userName)"
+                                [disabled]="!canDeleteUsers">Delete</button></td>
+                        <td class="text-end"><button class="btn btn-light" (click)="toUserDetails(user._id)"
+                                [disabled]="!canViewDetails">Details</button></td>
                     </tr>
                 </ng-container>
             </ng-container>
