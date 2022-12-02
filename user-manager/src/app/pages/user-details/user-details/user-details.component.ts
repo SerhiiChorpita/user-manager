@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 
 import { IUsersDetails, IUsersEdit, IUsersResponce } from 'src/app/shared/interfaces/users.interface';
@@ -31,6 +31,7 @@ export class UserDetailsComponent implements OnInit {
   public formRights!: Array<string>;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private database: DataBaseService,
     private notify: NotitionService,
     private editData: EditGuard,
@@ -41,8 +42,10 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getUser();
     this.getMyDetails();
   }
+
   setEditStatus(myStatus: boolean): boolean {
     return this.editStatus = myStatus;
   }
@@ -81,7 +84,7 @@ export class UserDetailsComponent implements OnInit {
   getMyDetails(): void {
     this.database.getUsers().subscribe(
       (data) => {
-        this.getUser(data);
+        // this.getUser(data);
       },
       error => this.notify.error(error)
     )
@@ -91,24 +94,16 @@ export class UserDetailsComponent implements OnInit {
     this.isLogined = clientLogin;
   }
 
-  getUser(data: IUsersResponce[]): void {
-    let userEmail = localStorage.getItem('user');
+  // getUser(data: IUsersResponce[]): void {
+  getUser(): void {
+    this.activatedRoute.data.subscribe(response => {
+      this.myUser = response['productInfo'];
 
-    data.find(item => {
-      if (item.email === userEmail) {
-        this.userId = item._id;
-        this.database.getUserDetails(this.userId).subscribe(
-          (data) => {
-            this.myUser = data;
-
-            this.isDataAvailable = true;
-
-            this.formAddData();
-          },
-          error => this.notify.error(error)
-        )
-      }
-    })
+      this.isDataAvailable = true;
+      this.formAddData();
+    },
+      error => this.notify.error(error)
+    )
   }
 
 }

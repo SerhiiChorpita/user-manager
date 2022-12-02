@@ -53,6 +53,9 @@
                         </div>
                         <div class="col-6">
                             <ul>
+                                <ng-container *ngIf="formRights.length === 0">
+                                    <li>no rights</li>
+                                </ng-container>
                                 <li *ngFor="let item of formRights">{{item}}</li>
                             </ul>
                         </div>

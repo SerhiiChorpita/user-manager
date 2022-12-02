@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { IUsersDetails, IUsersRequest, IUsersResponce } from 'src/app/shared/interfaces/users.interface';
 import { DataBaseService } from 'src/app/shared/services/data-base/data-base.service';
@@ -27,6 +28,7 @@ export class UsersComponent implements OnInit {
   constructor(
     private database: DataBaseService,
     private notify: NotitionService,
+    private router: Router,
     private shareData: ShareDataService
   ) {
     shareData.loginChanged.subscribe(clientDate => this.clientLoginStatus(clientDate));
@@ -77,7 +79,7 @@ export class UsersComponent implements OnInit {
 
 
   toUserDetails(id: number): void {
-
+    this.router.navigate(['/users', id]);
   }
 
 

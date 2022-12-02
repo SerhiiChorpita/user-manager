@@ -40,7 +40,8 @@
                     <td scope="row"><span>{{i +1}}</span></td>
                     <td><span>{{user.userName}}</span></td>
                     <td><span>{{user.email}}</span></td>
-                    <td class="text-end"><button class="btn btn-light">Details</button></td>
+                    <td class="text-end"><button class="btn btn-light"
+                            (click)="toUserDetails(user._id)">Details</button></td>
                 </tr>
             </ng-container>
         </tbody>

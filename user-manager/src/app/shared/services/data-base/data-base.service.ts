@@ -17,7 +17,7 @@ export class DataBaseService {
     return this.http.get<IUsersResponce[]>(this.usersUrl)
   }
 
-  getUserDetails(id: number): Observable<any> {
+  getUserDetails(id: number | string): Observable<any> {
     return this.http.get(`${this.usersUrl}/${id}`);
   }
 
